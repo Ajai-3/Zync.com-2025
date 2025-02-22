@@ -1,13 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/zync-favicon.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zync.com</title>
+  <link rel="preload" href="/src/index.css" as="style" onload="this.rel='stylesheet'" />
+
+  <script>
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.className = savedTheme; 
+    const themeStyles = {
+      light: "background-color: #ffffff; color: #000000;",
+      dark: "background-color: #111827; color: #ffffff;", 
+      blue: "background-color: #2563eb; color: #ffffff;", 
+      green: "background-color: #16a34a; color: #ffffff;" 
+    };
+    document.documentElement.style.cssText = themeStyles[savedTheme];
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>

@@ -1,68 +1,144 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Base styles for all themes */
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  @apply min-h-screen transition-colors duration-300 ease-in-out;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Light Theme */
+body.light {
+  @apply bg-white text-black; /* Main background and text color */
+}
+body.light .MuiPaper-root {
+  @apply bg-white text-black; /* Paper component background and text */
+}
+body.light .MuiOutlinedInput-root {
+  @apply bg-white; /* Input field background */
+}
+body.light .MuiOutlinedInput-input {
+  @apply text-black; /* Typed text color - change this to adjust */
+}
+body.light .MuiInputLabel-root {
+  @apply text-black; /* Label color (e.g., "Password") - change this to adjust */
+}
+body.light .MuiOutlinedInput-notchedOutline {
+  @apply border-gray-300; /* Input border color */
+}
+body.light .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  @apply border-blue-500; /* Focused border color */
+}
+body.light .MuiInputLabel-root.Mui-focused {
+  @apply text-blue-500; /* Focused label color */
+}
+body.light input:-webkit-autofill,
+body.light input:-webkit-autofill:hover,
+body.light input:-webkit-autofill:focus,
+body.light input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important; /* Autofill background */
+  -webkit-text-fill-color: #000 !important; /* Autofill text color - change this to adjust */
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* Dark Theme */
+body.dark {
+  @apply bg-gray-950 text-white;
 }
-button:hover {
-  border-color: #646cff;
+body.dark .MuiPaper-root {
+  @apply bg-gray-900 text-white;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+body.dark .MuiOutlinedInput-root {
+  @apply bg-gray-700;
+}
+body.dark .MuiOutlinedInput-input {
+  @apply text-white;
+}
+body.dark .MuiInputLabel-root {
+  @apply text-white;
+}
+body.dark .MuiOutlinedInput-notchedOutline {
+  @apply border-gray-600;
+}
+body.dark .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  @apply border-yellow-400;
+}
+body.dark .MuiInputLabel-root.Mui-focused {
+  @apply text-yellow-400;
+}
+body.dark input:-webkit-autofill,
+body.dark input:-webkit-autofill:hover,
+body.dark input:-webkit-autofill:focus,
+body.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Blue Theme */
+body.blue {
+  @apply bg-blue-600 text-white;
+}
+body.blue .MuiPaper-root {
+  @apply bg-blue-700 text-white;
+}
+body.blue .MuiOutlinedInput-root {
+  @apply bg-blue-800;
+}
+body.blue .MuiOutlinedInput-input {
+  @apply text-white;
+}
+body.blue .MuiInputLabel-root {
+  @apply text-white;
+}
+body.blue .MuiOutlinedInput-notchedOutline {
+  @apply border-blue-400;
+}
+body.blue .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  @apply border-blue-300;
+}
+body.blue .MuiInputLabel-root.Mui-focused {
+  @apply text-blue-300;
+}
+body.blue input:-webkit-autofill,
+body.blue input:-webkit-autofill:hover,
+body.blue input:-webkit-autofill:focus,
+body.blue input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1e3a8a inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Green Theme */
+body.green {
+  @apply bg-green-600 text-white;
+}
+body.green .MuiPaper-root {
+  @apply bg-green-700 text-white;
+}
+body.green .MuiOutlinedInput-root {
+  @apply bg-green-800;
+}
+body.green .MuiOutlinedInput-input {
+  @apply text-white;
+}
+body.green .MuiInputLabel-root {
+  @apply text-white;
+}
+body.green .MuiOutlinedInput-notchedOutline {
+  @apply border-green-400;
+}
+body.green .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  @apply border-green-300;
+}
+body.green .MuiInputLabel-root.Mui-focused {
+  @apply text-green-300;
+}
+body.green input:-webkit-autofill,
+body.green input:-webkit-autofill:hover,
+body.green input:-webkit-autofill:focus,
+body.green input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #166534 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
