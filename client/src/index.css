@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes blink {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.1); }
+  100% { transform: scaleY(1); }
+}
+
+.monkey-eye {
+  animation: blink 3s infinite;
+}
+
+.monkey-eye.closed {
+  animation: none;
+  transform: scaleY(0.1);
+}
+
 /* Base styles for all themes */
 body {
   @apply min-h-screen transition-colors duration-300 ease-in-out;
@@ -43,7 +58,7 @@ body.light input:-webkit-autofill:active {
 
 /* Dark Theme */
 body.dark {
-  @apply bg-gray-950 text-white;
+  @apply bg-black text-white;
 }
 body.dark .MuiPaper-root {
   @apply bg-gray-900 text-white;
