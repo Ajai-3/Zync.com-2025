@@ -18,7 +18,7 @@ import {
   VisibilityOff,
   Edit as EditIcon,
 } from "@mui/icons-material";
-import SpaceBackground from '../components/Stars';
+// import SpaceBackground from '../components/Stars';
 
 const MoonFace = ({ showPassword, isOtp, otp, inputFocused }) => {
   const [isBlinking, setIsBlinking] = useState(false);
@@ -418,7 +418,6 @@ const Login = () => {
 
   return (
     <div className="h-screen flex justify-center items-center relative">
-      <SpaceBackground />
       <Container component="main" maxWidth="xs">
         <Paper elevation={0} className="p-6 flex flex-col items-center">
           {/* Only show heading on first page */}
