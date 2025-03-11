@@ -3,21 +3,126 @@
 @tailwind utilities;
 
 @keyframes blink {
-  0% { transform: scaleY(1); }
-  50% { transform: scaleY(0.1); }
-  100% { transform: scaleY(1); }
+  0%,
+  96% {
+    transform: scaleY(1);
+  }
+  98% {
+    transform: scaleY(0.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
-.monkey-eye {
-  animation: blink 3s infinite;
+@keyframes smile-appear {
+  0% {
+    transform: scaleX(0.3) scaleY(0.1) translateY(5px);
+    opacity: 0;
+  }
+  50% {
+    transform: scaleX(1.2) scaleY(1.2) translateY(-2px);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    opacity: 1;
+  }
 }
 
-.monkey-eye.closed {
-  animation: none;
-  transform: scaleY(0.1);
+/* Moon Face Styles */
+.moon-face {
+  background: radial-gradient(circle at 50% 45%, #b0b0b0, #6e6e6e, #000000);
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset -25px -25px 35px rgba(0, 0, 0, 0.6); /* Inner shadow from bottom-left */
 }
 
-/* Base styles for all themes */
+/* Craters & Surface Details */
+.moon-face::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:  
+    /* Large craters (blended with moon surface) */
+    radial-gradient(circle at 25% 30%, #605f5f 6%, #828282 12%, transparent 18%),  
+    radial-gradient(circle at 70% 35%, #6a6a6a 5%, #4b4b4b 10%, transparent 16%),  
+    radial-gradient(circle at 50% 70%, #767676 4%, #505050 9%, transparent 15%),  
+
+    /* Medium craters */
+    radial-gradient(circle at 15% 60%, #787878 3%, #5a5a5a 7%, transparent 12%),  
+    radial-gradient(circle at 65% 15%, #808080 3.5%, #636363 8%, transparent 14%),  
+
+    /* Small craters */
+    radial-gradient(circle at 40% 80%, #898989 2%, #6b6b6b 5%, transparent 10%),  
+    radial-gradient(circle at 85% 55%, #909090 1.8%, #707070 4%, transparent 8%),  
+    radial-gradient(circle at 45% 45%, #959595 1.5%, #767676 3%, transparent 6%),  
+    radial-gradient(circle at 70% 85%, #8c8c8c 1.5%, #696969 3%, transparent 6%),  
+    radial-gradient(circle at 30% 90%, #828282 1.5%, #656565 3%, transparent 6%);  
+
+  opacity: 0.85;
+  mix-blend-mode: overlay;
+  filter: blur(1px);
+}
+
+/* Light reflection for 3D effect */
+.moon-face::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(166, 166, 166, 0.25) 6%, transparent 40%);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+/* Moon Face Smile */
+.moon-face .smile {
+  position: absolute;
+  width: 40px;
+  border-bottom: 3px solid #1c1c1c;
+  border-radius: 0 0 20px 20px;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.7;
+  z-index: 10;
+  animation: smile-appear 0.3s ease-out forwards;
+  transform-origin: center;
+}
+
+/* More Realistic Moon Eyes */
+.moon-eye {
+  width: 34px;
+  height: 34px;
+  background: radial-gradient(circle at 50% 50%, #d6d6d6, #8a8a8a);
+  border-radius: 50%;
+  border: 2px solid #5c5c5c;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3), 
+    inset 0 -4px 6px rgba(0, 0, 0, 0.2),
+    inset 3px 3px 4px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  animation: blink 8s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* More Realistic Pupils */
+.pupil {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 40%, #222, #555);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 0 8px rgba(0, 0, 0, 0.9), 
+    0 3px 4px rgba(255, 255, 255, 0.2); 
+  transition: all 0.3s ease;
+}
+
+
+
 body {
   @apply min-h-screen transition-colors duration-300 ease-in-out;
 }
@@ -42,7 +147,7 @@ body.light .MuiOutlinedInput-notchedOutline {
   @apply border-gray-300; /* Input border color */
 }
 body.light .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  @apply border-blue-500; /* Focused border color */
+  @apply border-sky-700; /* Focused border color */
 }
 body.light .MuiInputLabel-root.Mui-focused {
   @apply text-blue-500; /* Focused label color */
@@ -61,10 +166,10 @@ body.dark {
   @apply bg-black text-white;
 }
 body.dark .MuiPaper-root {
-  @apply bg-gray-900 text-white;
+  @apply bg-black text-white;
 }
 body.dark .MuiOutlinedInput-root {
-  @apply bg-gray-700;
+  @apply border-gray-600;
 }
 body.dark .MuiOutlinedInput-input {
   @apply text-white;
@@ -75,17 +180,22 @@ body.dark .MuiInputLabel-root {
 body.dark .MuiOutlinedInput-notchedOutline {
   @apply border-gray-600;
 }
+body.dark .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  @apply border-gray-400; /* Adjust to a visible border color */
+}
+
 body.dark .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  @apply border-yellow-400;
+  @apply border-green-600;
 }
 body.dark .MuiInputLabel-root.Mui-focused {
-  @apply text-yellow-400;
+  @apply text-green-400;
 }
+
 body.dark input:-webkit-autofill,
 body.dark input:-webkit-autofill:hover,
 body.dark input:-webkit-autofill:focus,
 body.dark input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #000000 inset !important;
   -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -156,4 +266,331 @@ body.green input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #166534 inset !important;
   -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Star background styles */
+.stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--twinkle-duration) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 0.8; transform: scale(1); }
+}
+
+/* Different star sizes */
+.star--tiny { width: 1px; height: 1px; }
+.star--small { width: 2px; height: 2px; }
+.star--medium { width: 3px; height: 3px; }
+.star--large { width: 4px; height: 4px; }
+
+/* Star colors for different themes */
+.light .star { background: #2563eb; }
+.dark .star { background: #ffffff; }
+
+/* Comet Styles */
+.comet {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  z-index: 1;
+}
+
+.comet::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  left: -20px;
+  top: -20px;
+  border-radius: 50%;
+}
+
+.comet::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+  transform-origin: right center;
+  background: inherit;
+  filter: blur(4px);
+  opacity: 0.9;
+}
+
+.comet-green {
+  background: #22c55e;
+  animation: cometMove 15s linear infinite;
+  bottom: -5%;
+  left: 20%;
+  animation-delay: -5s;
+  opacity: 0;
+}
+
+.comet-green::before {
+  background: radial-gradient(circle, rgba(34,197,94,0.3) 0%, transparent 70%);
+}
+
+.comet-green::after {
+  background: linear-gradient(to left, #22c55e, transparent);
+  box-shadow: 0 0 15px rgba(34,197,94,0.4);
+}
+
+.comet-red {
+  background: #ef4444;
+  animation: cometMove 12s linear infinite;
+  bottom: -15%;
+  left: 45%;
+  animation-delay: -8s;
+  opacity: 0;
+}
+
+.comet-red::before {
+  background: radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%);
+}
+
+.comet-red::after {
+  background: linear-gradient(to left, #ef4444, transparent);
+  box-shadow: 0 0 15px rgba(239,68,68,0.4);
+}
+
+.comet-pink {
+  background: #ec4899;
+  animation: cometMove 18s linear infinite;
+  bottom: -25%;
+  left: 70%;
+  animation-delay: -2s;
+  opacity: 0;
+}
+
+.comet-pink::before {
+  background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%);
+}
+
+.comet-pink::after {
+  background: linear-gradient(to left, #ec4899, transparent);
+  box-shadow: 0 0 15px rgba(236,72,153,0.4);
+}
+
+@keyframes cometMove {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  2% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate(800px, -800px);
+    opacity: 1;
+  }
+  46% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate(800px, -800px);
+    opacity: 0;
+  }
+}
+
+
+/* Mars - Richer shading with texture */
+.planet-mars {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b 10%, #e63946 40%, #a82632 70%, #721a23 100%);
+  top: 25%;
+  right: 15%;
+  box-shadow: 
+    0 0 15px 3px rgba(220, 38, 38, 0.5), /* Outer glow */
+    inset 1px 1px 3px rgba(255, 100, 100, 0.3), /* Highlight */
+    inset -1px -1px 3px rgba(0, 0, 0, 0.5); /* Shadow */
+  border-radius: 50%;
+  opacity: 0.9;
+  filter: brightness(1.1) contrast(1.2); /* Enhance realism */
+}
+
+/* Jupiter - More dynamic look with bands */
+.planet-jupiter {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 40%, #ffd8a8 10%, #ffb86c 30%, #ea580c 60%, #b7410e 100%);
+  top: 40%;
+  right: 35%;
+  box-shadow: 
+    0 0 22px 4px rgba(251, 146, 60, 0.5), /* Outer glow */
+    inset 2px 2px 4px rgba(255, 200, 150, 0.3), /* Highlight */
+    inset -2px -2px 4px rgba(0, 0, 0, 0.6); /* Shadow */
+  border-radius: 50%;
+  opacity: 0.9;
+  filter: brightness(1.15) contrast(1.3);
+  /* Subtle banding effect */
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 20%, transparent 25%, rgba(0, 0, 0, 0.2) 30%, transparent 35%);
+}
+
+/* Saturn - More realistic shading & ring */
+.planet-saturn {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 50% 50%, #ffe082 10%, #fbbf24 40%, #b86c1b 70%, #8b4513 100%);
+  top: 15%;
+  right: 25%;
+  box-shadow: 
+    0 0 20px 3px rgba(251, 191, 36, 0.5), /* Outer glow */
+    inset 1px 1px 3px rgba(255, 220, 150, 0.3), /* Highlight */
+    inset -1px -1px 3px rgba(0, 0, 0, 0.5); /* Shadow */
+  border-radius: 50%;
+  opacity: 0.85;
+  filter: brightness(1.1) contrast(1.2);
+}
+
+/* Saturn's Ring - Improved realism with depth */
+.planet-saturn::after {
+  content: '';
+  position: absolute;
+  width: 22px; /* Wider ring */
+  height: 4px;
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.6) 20%, rgba(251, 191, 36, 0.2) 60%, transparent 80%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(25deg); /* Slightly tilted */
+  border-radius: 50%;
+  filter: blur(1px);
+  box-shadow: 0 0 5px rgba(251, 191, 36, 0.4); /* Ring glow */
+  opacity: 0.7;
+}
+
+/* Galaxy base class */
+.galaxy {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Galaxy 1 - Spiral with brighter dots */
+.galaxy-1 {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 10%, transparent 50%);
+  top: 15%;
+  left: 20%;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.8;
+  animation: spin 20s linear infinite;
+}
+
+.galaxy-1::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* Larger, brighter dots */
+    radial-gradient(circle at 30% 30%, white 0%, transparent 4%),
+    radial-gradient(circle at 70% 60%, white 0%, transparent 4%),
+    radial-gradient(circle at 40% 80%, white 0%, transparent 4%),
+    radial-gradient(circle at 80% 40%, white 0%, transparent 4%),
+    /* Additional smaller dots */
+    radial-gradient(circle at 20% 20%, white 0%, transparent 3%),
+    radial-gradient(circle at 60% 50%, white 0%, transparent 3%),
+    radial-gradient(circle at 50% 70%, white 0%, transparent 3%);
+  filter: blur(0.5px);
+  animation: twinkleStars 3s infinite alternate;
+}
+
+/* Galaxy 2 - Nebula with brighter dots */
+.galaxy-2 {
+  width: 20px;
+  height: 60px;
+  background: radial-gradient(circle at center, rgba(147, 112, 219, 0.5) 20%, rgba(75, 0, 130, 0.3) 60%, transparent 100%);
+  bottom: 25%;
+  right: 30%;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.7;
+  transform: rotate(-30deg);
+}
+
+.galaxy-2::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* Larger, brighter dots */
+    radial-gradient(circle at 20% 20%, white 0%, transparent 4%),
+    radial-gradient(circle at 60% 40%, white 0%, transparent 4%),
+    radial-gradient(circle at 80% 60%, white 0%, transparent 4%),
+    radial-gradient(circle at 40% 70%, white 0%, transparent 4%),
+    /* Additional smaller dots */
+    radial-gradient(circle at 30% 40%, white 0%, transparent 3%),
+    radial-gradient(circle at 70% 30%, white 0%, transparent 3%),
+    radial-gradient(circle at 50% 80%, white 0%, transparent 3%);
+  filter: blur(0.5px);
+  animation: twinkleStars 4s infinite alternate-reverse;
+}
+
+/* Enhanced twinkle animation */
+@keyframes twinkleStars {
+  0%, 100% {
+    opacity: 0.5;
+    filter: blur(1px) brightness(0.8);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0.5px) brightness(1.2);
+  }
+}
+
+/* Bright central spots */
+.galaxy-1::after, .galaxy-2::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 50%, white 0%, transparent 5%),
+    radial-gradient(circle at 30% 70%, white 0%, transparent 5%),
+    radial-gradient(circle at 70% 30%, white 0%, transparent 5%);
+  filter: blur(0.5px);
+  animation: twinkleStars 2s infinite alternate;
+  transform: scale(0.8);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+
 }

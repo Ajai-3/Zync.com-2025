@@ -18,6 +18,109 @@ import {
   VisibilityOff,
   Edit as EditIcon,
 } from "@mui/icons-material";
+import SpaceBackground from '../components/Stars';
+
+const MoonFace = ({ showPassword, isOtp, otp, inputFocused }) => {
+  const [isBlinking, setIsBlinking] = useState(false);
+
+  useEffect(() => {
+    const blinkInterval = setInterval(() => {
+      setIsBlinking(true);
+      setTimeout(() => setIsBlinking(false), 100); // Short blink
+    }, Math.random() * 10000 + 8000); // Randomized blink timing
+
+    return () => clearInterval(blinkInterval);
+  }, []);
+
+  // Calculate eye position based on OTP input
+  const getEyePosition = () => {
+    if (isOtp) {
+      if (otp.length === 0) {
+        return { x: "50%", y: "50%" }; // Look down at input field
+      }
+      if (otp.length === 6) {
+        return { x: "50%", y: "50%" }; // Look straight when OTP complete
+      }
+
+      // Eye movement based on OTP digits
+      const lastNum = otp[otp.length - 1];  
+      const positions = {
+        1: { x: "20%", y: "80%" },
+        2: { x: "30%", y: "80%" },
+        3: { x: "40%", y: "80%" },
+        4: { x: "50%", y: "80%" },
+        5: { x: "60%", y: "80%" },
+        6: { x: "70%", y: "50%" }, // Moves up
+        7: { x: "30%", y: "80%" },
+        8: { x: "50%", y: "80%" },
+        9: { x: "70%", y: "80%" },
+        0: { x: "50%", y: "90%" },
+      };
+      
+      return positions[lastNum] || { x: "50%", y: "70%" };
+    } else {
+      return inputFocused ? { x: "50%", y: "70%" } : { x: "50%", y: "50%" };
+    }
+  };
+
+  // Dynamic Smile: Changes as OTP is entered
+  const getSmileStyle = () => {
+    if (!isOtp && showPassword) {
+      // Happy smile when password is visible
+      return {
+        height: "24px"  // Bigger smile for password visibility
+      };
+    }
+    // Original OTP-based smile logic
+    const smileLevels = ["5px", "8px", "12px", "16px", "20px", "24px", "30px"];
+    return {
+      height: smileLevels[Math.min(otp.length, smileLevels.length - 1)],
+    };
+  };
+
+  return (
+    <div className="w-[150px] h-[150px] mx-auto mb-6 relative">
+      <div className="moon-face w-full h-full relative">
+        {/* Large Craters */}
+        
+
+        {/* Eyes */}
+        <div className="absolute w-full h-full z-10">
+          {["left", "right"].map((side) => (
+            <div
+              key={side}
+              className="moon-eye absolute top-[35%]"
+              style={{
+                left: side === "left" ? "20%" : "60%",
+                height: isBlinking ? "1px" : "32px",
+                transform: `translateX(-50%) ${
+                  isBlinking ? "scaleY(0.1)" : "scaleY(1)"
+                }`,
+              }}
+            >
+              <div
+                className="pupil absolute"
+                style={{
+                  top: getEyePosition().y,
+                  left: getEyePosition().x,
+                  transform: "translate(-50%, -50%)",
+                  opacity: !isOtp && !showPassword ? 0 : 1,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Dynamic Smile */}
+        <div
+          className="absolute w-[40px] border-b-[3px] border-[#1c1c1c] rounded-b-[20px] bottom-[20%] left-1/2 transform -translate-x-1/2 opacity-70 z-10"
+          style={getSmileStyle()}
+        />
+      </div>
+    </div>
+  );
+};
+
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -68,11 +171,11 @@ const Login = () => {
             <img
               src={country.flag}
               alt={country.name}
-              style={{ 
+              style={{
                 width: 28,
                 height: 20,
                 marginRight: 8,
-                objectFit: "contain"
+                objectFit: "contain",
               }}
             />
             {country.name}
@@ -88,23 +191,23 @@ const Login = () => {
       PaperProps: {
         style: {
           maxHeight: 400,
-          '&::-webkit-scrollbar': {
-            display: 'none'
+          "&::-webkit-scrollbar": {
+            display: "none",
           },
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         },
         sx: {
-          backgroundColor: 'background.paper',
-          '& .MuiList-root': {
+          backgroundColor: "background.paper",
+          "& .MuiList-root": {
             padding: 0,
-            '&::-webkit-scrollbar': {
-              display: 'none'
+            "&::-webkit-scrollbar": {
+              display: "none",
             },
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }
-        }
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          },
+        },
       },
     },
   };
@@ -118,12 +221,13 @@ const Login = () => {
         const countryList = data
           .map((country) => {
             // More accurate way to get country calling code
-            const dialCode = country.idd?.root + (country.idd?.suffixes?.[0] || "");
-            
+            const dialCode =
+              country.idd?.root + (country.idd?.suffixes?.[0] || "");
+
             // Using higher resolution flags (32x24 instead of 16x12)
             // Using CDN that provides better quality flags
             const flag = `https://flagcdn.com/32x24/${country.cca2.toLowerCase()}.png`;
-            
+
             // Only include countries with valid dial codes
             if (!dialCode || dialCode === "undefined") return null;
 
@@ -132,11 +236,11 @@ const Login = () => {
               flag,
               name: country.name.common,
               // Add ISO code for better identification
-              iso2: country.cca2.toLowerCase()
+              iso2: country.cca2.toLowerCase(),
             };
           })
           .filter(Boolean) // Remove null entries
-          .filter(country => country.code && country.name) // Ensure code and name exist
+          .filter((country) => country.code && country.name) // Ensure code and name exist
           .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by name
 
         setCountries(countryList);
@@ -313,16 +417,36 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen flex justify-center items-center relative">
+      <SpaceBackground />
       <Container component="main" maxWidth="xs">
-        <Paper elevation={3} className="p-6 flex flex-col items-center">
-          <Typography
-            variant="h5"
-            className="mb-4"
-            sx={{ marginBottom: "1rem !important" }}
-          >
-            {isLogin ? "Login" : "Sign Up"}
-          </Typography>
+        <Paper elevation={0} className="p-6 flex flex-col items-center">
+          {/* Only show heading on first page */}
+          {(isLogin && !loginOtpSent) || (!isLogin && !otpSent) ? (
+            <>
+              <Typography
+                variant="h5"
+                className="mb-0"
+                sx={{ marginBottom: ".5rem !important", textAlign: "center" }}
+              >
+                {isLogin ? "Login" : "Sign Up"}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "gray",
+                  fontSize: "0.875rem",
+                  mb: 2,
+                  textAlign: "center",
+                }}
+              >
+                {isLogin
+                  ? "Please confirm your country code and enter your phone number."
+                  : "Sign up to get started. Enter your phone number to continue."}
+              </Typography>
+            </>
+          ) : null}
 
           {loading ? (
             <Typography>Loading countries...</Typography>
@@ -388,20 +512,27 @@ const Login = () => {
                                     width: "100%",
                                   }}
                                 >
-                                  <div style={{ display: "flex", alignItems: "center" }}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
                                     <img
                                       src={country.flag}
                                       alt={country.name}
-                                      style={{ 
+                                      style={{
                                         width: 28,
                                         height: 20,
                                         marginRight: 8,
-                                        objectFit: "contain"
+                                        objectFit: "contain",
                                       }}
                                     />
                                     {country.name}
                                   </div>
-                                  <span style={{ color: "gray" }}>{country.code}</span>
+                                  <span style={{ color: "gray" }}>
+                                    {country.code}
+                                  </span>
                                 </div>
                               </MenuItem>
                             ))}
@@ -461,19 +592,33 @@ const Login = () => {
                   )}
 
                   {!loginOtpSent ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      onClick={handleLoginSendOtp}
-                      disabled={!!phoneError || !phoneNumber}
-                    >
-                      Send OTP
-                    </Button>
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={handleLoginSendOtp}
+                        sx={{ borderRadius: "10px" }}
+                        disabled={!!phoneError || !phoneNumber}
+                      >
+                        Send OTP
+                      </Button>
+
+                      <Button
+                        fullWidth
+                        color="secondary"
+                        variant="text"
+                        onClick={toggleLogin}
+                        sx={{ textTransform: "none" }}
+                      >
+                        Sign Up Instead ?
+                      </Button>
+                    </>
                   ) : !loginOtpVerified ? (
                     <>
                       {/* Add phone number display and message */}
                       <div className="flex flex-col w-full mb-4">
+                        <MoonFace isOtp={true} otp={otp} inputFocused={false} />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -504,7 +649,8 @@ const Login = () => {
                             textAlign: "center",
                           }}
                         >
-                       A verification code has been sent to your Zync app. Please check to continue.
+                          A verification code has been sent to your Zync app.
+                          Please check to continue.
                         </Typography>
                       </div>
 
@@ -538,6 +684,7 @@ const Login = () => {
                         color="primary"
                         fullWidth
                         onClick={handleLoginVerifyOtp}
+                        sx={{ borderRadius: "10px" }}
                         disabled={!!otpError || otp.length !== 6}
                       >
                         Verify OTP
@@ -546,6 +693,12 @@ const Login = () => {
                   ) : (
                     <>
                       <div className="flex flex-col w-full mb-4">
+                        <MoonFace
+                          showPassword={showPassword}
+                          isOtp={false}
+                          inputFocused={false}
+                          otp=""  // Add empty string as default
+                        />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -576,7 +729,8 @@ const Login = () => {
                             textAlign: "center",
                           }}
                         >
-                         Your password is protected with advanced security. Please enter your password to continue.
+                          Your password is protected with advanced security.
+                          Please enter your password to continue.
                         </Typography>
                       </div>
 
@@ -597,6 +751,7 @@ const Login = () => {
                                 <IconButton
                                   onClick={() => setShowPassword(!showPassword)}
                                   edge="end"
+                                  sx={{ color: "gray" }}
                                 >
                                   {showPassword ? (
                                     <VisibilityOff />
@@ -615,21 +770,12 @@ const Login = () => {
                         type="submit"
                         fullWidth
                         disabled={!!passwordError || !password}
+                        sx={{ borderRadius: "10px" }}
                       >
                         Login
                       </Button>
                     </>
                   )}
-
-                  <Typography className="text-center">or</Typography>
-                  <Button
-                    fullWidth
-                    color="secondary"
-                    variant="outlined"
-                    onClick={toggleLogin}
-                  >
-                    Sign Up Instead
-                  </Button>
                 </form>
               ) : (
                 <div className="w-full flex flex-col gap-4">
@@ -687,20 +833,27 @@ const Login = () => {
                                     width: "100%",
                                   }}
                                 >
-                                  <div style={{ display: "flex", alignItems: "center" }}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
                                     <img
                                       src={country.flag}
                                       alt={country.name}
-                                      style={{ 
+                                      style={{
                                         width: 28,
                                         height: 20,
                                         marginRight: 8,
-                                        objectFit: "contain"
+                                        objectFit: "contain",
                                       }}
                                     />
                                     {country.name}
                                   </div>
-                                  <span style={{ color: "gray" }}>{country.code}</span>
+                                  <span style={{ color: "gray" }}>
+                                    {country.code}
+                                  </span>
                                 </div>
                               </MenuItem>
                             ))}
@@ -739,14 +892,25 @@ const Login = () => {
                         color="primary"
                         fullWidth
                         onClick={handleSendOtp}
+                        sx={{ borderRadius: "10px" }}
                         disabled={!!phoneError || !phoneNumber}
                       >
                         Send OTP
                       </Button>
+                      <Button
+                        fullWidth
+                        color="secondary"
+                        variant="text"
+                        onClick={toggleLogin}
+                        sx={{ textTransform: "none" }}
+                      >
+                        Login Instead ?
+                      </Button>
                     </>
                   ) : !isVerified ? (
                     <>
-                    <div className="flex flex-col w-full mb-4">
+                      <div className="flex flex-col w-full mb-4">
+                        <MoonFace isOtp={true} otp={otp} inputFocused={false} />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -777,7 +941,8 @@ const Login = () => {
                             textAlign: "center",
                           }}
                         >
-                       A verification code has been sent to your Zync app. Please check to continue.
+                          A verification code has been sent to your Zync app.
+                          Please check to continue.
                         </Typography>
                       </div>
                       <div>
@@ -809,6 +974,7 @@ const Login = () => {
                         color="primary"
                         fullWidth
                         onClick={handleVerifyOtp}
+                        sx={{ borderRadius: "10px" }}
                         disabled={!!otpError || otp.length !== 6}
                       >
                         Verify OTP
@@ -820,6 +986,12 @@ const Login = () => {
                       className="w-full flex flex-col gap-4"
                     >
                       <div className="flex flex-col w-full mb-4">
+                        <MoonFace
+                          showPassword={showPassword}
+                          isOtp={false}
+                          inputFocused={false}
+                          otp=""  // Add empty string as default
+                        />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -850,7 +1022,8 @@ const Login = () => {
                             textAlign: "center",
                           }}
                         >
-                         Your password is protected with advanced security. Please create a strong password to continue.
+                          Your password is protected with advanced security.
+                          Please create a strong password to continue.
                         </Typography>
                       </div>
                       <div>
@@ -873,6 +1046,7 @@ const Login = () => {
                                 <IconButton
                                   onClick={() => setShowPassword(!showPassword)}
                                   edge="end"
+                                  sx={{ color: "gray" }}
                                 >
                                   {showPassword ? (
                                     <VisibilityOff />
@@ -938,6 +1112,7 @@ const Login = () => {
                                     setShowConfirmPassword(!showConfirmPassword)
                                   }
                                   edge="end"
+                                  sx={{ color: "gray" }}
                                 >
                                   {showConfirmPassword ? (
                                     <VisibilityOff />
@@ -968,20 +1143,12 @@ const Login = () => {
                           !password ||
                           !confirmPassword
                         }
+                        sx={{ borderRadius: "10px" }}
                       >
                         Sign Up
                       </Button>
                     </form>
                   )}
-                  <Typography className="mt-4 text-center">or</Typography>
-                  <Button
-                    fullWidth
-                    color="secondary"
-                    variant="outlined"
-                    onClick={toggleLogin}
-                  >
-                    Login Instead
-                  </Button>
                 </div>
               )}
             </>
