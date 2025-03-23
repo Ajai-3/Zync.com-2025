@@ -20,7 +20,7 @@ import {
 } from "@mui/icons-material";
 // import SpaceBackground from '../components/Stars';
 
-const MoonFace = ({ showPassword, isOtp, otp, inputFocused }) => {
+const PandaFace = ({ showPassword, isOtp, otp, inputFocused }) => {
   const [isBlinking, setIsBlinking] = useState(false);
 
   useEffect(() => {
@@ -80,16 +80,13 @@ const MoonFace = ({ showPassword, isOtp, otp, inputFocused }) => {
 
   return (
     <div className="w-[150px] h-[150px] mx-auto mb-6 relative">
-      <div className="moon-face w-full h-full relative">
-        {/* Large Craters */}
-        
-
+      <div className="panda-face w-full h-full relative">
         {/* Eyes */}
         <div className="absolute w-full h-full z-10">
           {["left", "right"].map((side) => (
             <div
               key={side}
-              className="moon-eye absolute top-[35%]"
+              className="panda-eye absolute top-[35%]"
               style={{
                 left: side === "left" ? "20%" : "60%",
                 height: isBlinking ? "1px" : "32px",
@@ -617,7 +614,7 @@ const Login = () => {
                     <>
                       {/* Add phone number display and message */}
                       <div className="flex flex-col w-full mb-4">
-                        <MoonFace isOtp={true} otp={otp} inputFocused={false} />
+                        <PandaFace isOtp={true} otp={otp} inputFocused={false} />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -692,7 +689,7 @@ const Login = () => {
                   ) : (
                     <>
                       <div className="flex flex-col w-full mb-4">
-                        <MoonFace
+                        <PandaFace
                           showPassword={showPassword}
                           isOtp={false}
                           inputFocused={false}
@@ -909,7 +906,7 @@ const Login = () => {
                   ) : !isVerified ? (
                     <>
                       <div className="flex flex-col w-full mb-4">
-                        <MoonFace isOtp={true} otp={otp} inputFocused={false} />
+                        <PandaFace isOtp={true} otp={otp} inputFocused={false} />
                         <div className="flex items-center justify-center">
                           <Typography
                             variant="body1"
@@ -985,7 +982,7 @@ const Login = () => {
                       className="w-full flex flex-col gap-4"
                     >
                       <div className="flex flex-col w-full mb-4">
-                        <MoonFace
+                        <PandaFace
                           showPassword={showPassword}
                           isOtp={false}
                           inputFocused={false}

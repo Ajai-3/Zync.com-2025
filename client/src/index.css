@@ -29,57 +29,47 @@
   }
 }
 
-/* Moon Face Styles */
-.moon-face {
-  background: radial-gradient(circle at 50% 45%, #b0b0b0, #6e6e6e, #000000);
+/* Panda Face Styles */
+.panda-face {
+  background: #FFFFFF; /* White base for panda */
   border-radius: 50%;
   overflow: hidden;
   position: relative;
   display: inline-block;
-  box-shadow: inset -25px -25px 35px rgba(0, 0, 0, 0.6); /* Inner shadow from bottom-left */
+  box-shadow: inset -25px -25px 35px rgba(0, 0, 0, 0.1);
 }
 
-/* Craters & Surface Details */
-.moon-face::before {
+/* Panda black patches */
+.panda-face::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  background:  
-    /* Large craters (blended with moon surface) */
-    radial-gradient(circle at 25% 30%, #605f5f 6%, #828282 12%, transparent 18%),  
-    radial-gradient(circle at 70% 35%, #6a6a6a 5%, #4b4b4b 10%, transparent 16%),  
-    radial-gradient(circle at 50% 70%, #767676 4%, #505050 9%, transparent 15%),  
-
-    /* Medium craters */
-    radial-gradient(circle at 15% 60%, #787878 3%, #5a5a5a 7%, transparent 12%),  
-    radial-gradient(circle at 65% 15%, #808080 3.5%, #636363 8%, transparent 14%),  
-
-    /* Small craters */
-    radial-gradient(circle at 40% 80%, #898989 2%, #6b6b6b 5%, transparent 10%),  
-    radial-gradient(circle at 85% 55%, #909090 1.8%, #707070 4%, transparent 8%),  
-    radial-gradient(circle at 45% 45%, #959595 1.5%, #767676 3%, transparent 6%),  
-    radial-gradient(circle at 70% 85%, #8c8c8c 1.5%, #696969 3%, transparent 6%),  
-    radial-gradient(circle at 30% 90%, #828282 1.5%, #656565 3%, transparent 6%);  
-
-  opacity: 0.85;
-  mix-blend-mode: overlay;
-  filter: blur(1px);
+  background:
+    /* Eye patches */
+    radial-gradient(ellipse at 30% 40%, #000000 20%, transparent 21%),
+    radial-gradient(ellipse at 70% 40%, #000000 20%, transparent 21%),
+    /* Ear patches */
+    radial-gradient(circle at 15% 15%, #000000 15%, transparent 16%),
+    radial-gradient(circle at 85% 15%, #000000 15%, transparent 16%);
+  opacity: 1;
 }
 
-/* Light reflection for 3D effect */
-.moon-face::after {
+/* Panda nose */
+.panda-face::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 70% 30%, rgba(166, 166, 166, 0.25) 6%, transparent 40%);
-  border-radius: 50%;
-  opacity: 0.8;
+  width: 25px;
+  height: 15px;
+  background: #000000;
+  border-radius: 25px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 10px);
 }
 
-/* Moon Face Smile */
-.moon-face .smile {
+/* Panda Face Smile */
+.panda-face .smile {
   position: absolute;
   width: 40px;
   border-bottom: 3px solid #1c1c1c;
@@ -93,17 +83,16 @@
   transform-origin: center;
 }
 
-/* More Realistic Moon Eyes */
-.moon-eye {
+/* More Realistic Panda Eyes */
+.panda-eye {
   width: 34px;
   height: 34px;
-  background: radial-gradient(circle at 50% 50%, #d6d6d6, #8a8a8a);
+  background: #FFFFFF;
   border-radius: 50%;
-  border: 2px solid #5c5c5c;
+  border: 2px solid #000000;
   box-shadow: 
     0 4px 8px rgba(0, 0, 0, 0.3), 
-    inset 0 -4px 6px rgba(0, 0, 0, 0.2),
-    inset 3px 3px 4px rgba(255, 255, 255, 0.25);
+    inset 0 -4px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   animation: blink 8s infinite ease-in-out;
   transition: all 0.3s ease;
@@ -113,11 +102,11 @@
 .pupil {
   width: 14px;
   height: 14px;
-  background: radial-gradient(circle at 40% 40%, #222, #555);
+  background: #000000;
   border-radius: 50%;
   box-shadow: 
-    inset 0 0 8px rgba(0, 0, 0, 0.9), 
-    0 3px 4px rgba(255, 255, 255, 0.2); 
+    inset 0 0 8px rgba(0, 0, 0, 0.9),
+    0 0 4px rgba(255, 255, 255, 0.4);
   transition: all 0.3s ease;
 }
 
