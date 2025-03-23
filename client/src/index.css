@@ -31,13 +31,19 @@
 
 /* Panda Face Styles */
 .panda-face {
-  background: #FFFFFF; /* White base for panda */
-  border-radius: 50%;
-  overflow: hidden;
+  width: 160px;
+  height: 140px;
+  background: #f1f1f1;
+  border-radius: 70% 70% 55% 50% / 95% 95% 40% 40%;
   position: relative;
-  display: inline-block;
-  box-shadow: inset -25px -25px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    inset -5px -5px 10px rgba(0, 0, 0, 0.1),
+    0 5px 10px rgba(0, 0, 0, 0.2);
+  transform: scaleX(1.05); /* Slight stretch for better proportion */
 }
+
+
+
 
 /* Panda black patches */
 .panda-face::before {
@@ -45,13 +51,27 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  
   background:
     /* Eye patches */
-    radial-gradient(ellipse at 30% 40%, #000000 20%, transparent 21%),
-    radial-gradient(ellipse at 70% 40%, #000000 20%, transparent 21%),
+    radial-gradient(circle at 30% 40%, #1d1d1d 25%, transparent 26%),
+    radial-gradient(circle at 70% 40%, #1d1d1d 25%, transparent 26%),
+    
     /* Ear patches */
-    radial-gradient(circle at 15% 15%, #000000 15%, transparent 16%),
-    radial-gradient(circle at 85% 15%, #000000 15%, transparent 16%);
+    radial-gradient(circle at 15% 10%, #323232 20%, transparent 21%),
+    radial-gradient(circle at 85% 10%, #272727 20%, transparent 21%);
+  
+    /* clip-path: polygon(
+ 
+      24% 38%, 32% 26%, 44% 30%, 46% 42%, 40% 54%, 34% 58%, 25% 52%, 22% 44%,
+     
+      56% 30%, 68% 26%, 76% 38%, 74% 50%, 68% 56%, 60% 52%, 54% 44%, 56% 36%,
+     
+      5% 6%, 18% 0%, 28% 8%, 22% 20%, 10% 16%, 6% 10%,
+    
+      72% 6%, 82% 0%, 95% 10%, 90% 20%, 80% 16%, 74% 8%
+    ); */
+  
   opacity: 1;
 }
 
@@ -87,8 +107,8 @@
 .panda-eye {
   width: 34px;
   height: 34px;
-  background: #FFFFFF;
-  border-radius: 50%;
+  background: #ebebeb;
+  border-radius: 60% 60% 55% 55% / 90% 90% 45% 45%;
   border: 2px solid #000000;
   box-shadow: 
     0 4px 8px rgba(0, 0, 0, 0.3), 
@@ -101,12 +121,12 @@
 /* More Realistic Pupils */
 .pupil {
   width: 14px;
-  height: 14px;
-  background: #000000;
+  height: 16px;
+  background: radial-gradient(circle at 50% 50%, #ffffff .3%, #000000 30%);
   border-radius: 50%;
   box-shadow: 
     inset 0 0 8px rgba(0, 0, 0, 0.9),
-    0 0 4px rgba(255, 255, 255, 0.4);
+    0 0 4px rgba(224, 223, 223, 0.4);
   transition: all 0.3s ease;
 }
 
